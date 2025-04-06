@@ -26,14 +26,15 @@ steps:
 - task: DotNetCoreCLI@2
   inputs:
     command: 'pack'
-    packagesToPack: '**/*.csproj'
-    arguments: '--configuration $(buildConfiguration)'
+    packagesToPack: '**/StringLibrary.csproj'
+    arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
     versioningScheme: 'off'
 
-- task: NuGetAuthenticate@1  # Needed for pushing to Azure Artifacts
+
+- task: NuGetAuthenticate@1  
 
 - task: NuGetCommand@2
   inputs:
     command: 'push'
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
     publishVstsFeed: 'StringLibraryFeed'
-    packagesToPush: '**/*.nupkg'
