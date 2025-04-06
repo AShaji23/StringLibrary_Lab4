@@ -35,5 +35,5 @@ steps:
 - task: NuGetCommand@2
   inputs:
     command: 'push'
-    publishVstsFeed: 'StringLibraryFeed'  # 👈 Replace with your actual feed name
+    publishVstsFeed: 'StringLibraryFeed'
     packagesToPush: '**/*.nupkg'
