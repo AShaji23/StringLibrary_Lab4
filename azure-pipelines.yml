@@ -2,7 +2,7 @@ trigger:
   - main
 
 pool:
-  name: Ashwins-MacBook-Air-2 
+  name: COMP367-Lab
 
 variables:
   buildConfiguration: 'Release'
