@@ -1,0 +1,39 @@
+trigger:
+  - main
+
+pool:
+  name: Ashwins-MacBook-Air-2 
+
+variables:
+  buildConfiguration: 'Release'
+
+steps:
+- task: UseDotNet@2
+  inputs:
+    version: '8.0.x'
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'restore'
+    projects: '**/*.csproj'
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'build'
+    projects: '**/*.csproj'
+    arguments: '--configuration $(buildConfiguration)'
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'pack'
+    packagesToPack: '**/*.csproj'
+    arguments: '--configuration $(buildConfiguration)'
+    versioningScheme: 'off'
+
+- task: NuGetAuthenticate@1  # Needed for pushing to Azure Artifacts
+
+- task: NuGetCommand@2
+  inputs:
+    command: 'push'
+    publishVstsFeed: 'StringLibraryFeed'  # 👈 Replace with your actual feed name
+    packagesToPush: '**/*.nupkg'
